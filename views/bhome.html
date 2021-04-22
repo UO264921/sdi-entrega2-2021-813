@@ -1,0 +1,20 @@
+{% extends "base.html" %} 
+
+{% block titulo %} MyWallapop {% endblock %}
+
+{% block contenido_principal %}
+  {% if (usuario == "") %}
+    <h2>Bienvenido a MyWallapop</h2>
+    <div>
+      <h2>Identifícate y accede ya a nuestras ofertas</h2>
+      <h3>¡También puedes publicar tus propios productos!</h3>
+      <img alt="logo" src="/img/carrito.png"/>
+    </div>
+  {% else %}
+    <h2>Bienvenido a MyWallapop, {{nombre}}</h2>
+    <div>
+      <h2>Disfruta de nuestras ofertas y publica las tuyas propias</h2>
+      <img alt="logo" src="/img/carrito.png"/>
+    </div>
+  {% endif %}
+{% endblock %}
