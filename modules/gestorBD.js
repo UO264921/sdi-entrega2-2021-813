@@ -81,4 +81,58 @@ module.exports = {
         });
     },
 
+    obtenerPublicaciones: function (criterio, funcionCallback) {
+        this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
+            if (err) {
+                funcionCallback(null);
+            } else {
+                let collection = db.collection('publicaciones');
+                collection.find(criterio).toArray(function (err, admins) {
+                    if (err) {
+                        funcionCallback(null);
+                    } else {
+                        funcionCallback(admins);
+                    }
+                    db.close();
+                });
+            }
+        });
+    },
+
+    insertarPublicacion: function (publicacion, funcionCallback) {
+        this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
+            if (err) {
+                funcionCallback(null);
+            } else {
+                let collection = db.collection('publicaciones');
+                collection.insert(publicacion, function (err, result) {
+                    if (err) {
+                        funcionCallback(null);
+                    } else {
+                        funcionCallback(result.ops[0]._id);
+                    }
+                    db.close();
+                });
+            }
+        });
+    },
+    eliminarPublicaciones: function (criterio, funcionCallback) {
+        this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
+            if (err) {
+                funcionCallback(null);
+            } else {
+                let collection = db.collection('publicaciones');
+                collection.remove(criterio, function (err, result) {
+                    if (err) {
+                        funcionCallback(null);
+                    } else {
+                        funcionCallback(result);
+                    }
+                    db.close();
+                });
+            }
+        });
+    },
+
+
 };

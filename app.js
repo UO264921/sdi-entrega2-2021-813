@@ -41,15 +41,15 @@ routerUsuarioSession.use(function (req, res, next) {
         res.redirect("/identificarse");
     }
 });
-app.use("/tienda", routerUsuarioSession);
-app.use("/publicaciones", routerUsuarioSession);
-app.use("/compras", routerUsuarioSession);
-app.use("/listUsers", routerUsuarioSession);
+app.use("/user/tienda", routerUsuarioSession);
+app.use("/user/publicaciones", routerUsuarioSession);
+app.use("/user/compras", routerUsuarioSession);
+app.use("/admin/listUsers", routerUsuarioSession);
 
 
 //Router para identificar si el usuario es admin
 var routerUsuarioAdmin = express.Router();
-routerUsuarioSession.use(function (req, res, next) {
+routerUsuarioAdmin.use(function (req, res, next) {
     if (req.session.admin) {
         next();
     } else {
@@ -59,13 +59,46 @@ routerUsuarioSession.use(function (req, res, next) {
             res.redirect("/identificarse");
     }
 });
-app.use("/listUsers", routerUsuarioAdmin);
+app.use("/admin/listUsers", routerUsuarioAdmin);
+
+//Router para identificar si el usuario no es admin
+var routerUsuarioNoAdmin = express.Router();
+routerUsuarioNoAdmin.use(function (req, res, next) {
+    if (!req.session.admin) {
+        next();
+    } else {
+        if (req.session.usuario)
+            res.redirect("/");
+        else
+            res.redirect("/identificarse");
+    }
+});
+app.use("/user/publicaciones/", routerUsuarioNoAdmin);
+app.use("/user/tienda/", routerUsuarioNoAdmin);
+app.use("/user/compras/", routerUsuarioNoAdmin);
+
+//routerUsuarioAutor
+let routerUsuarioAutor = express.Router();
+routerUsuarioAutor.use(function (req, res, next) {
+    let path = require('path');
+    let id = path.basename(req.originalUrl);
+    gestorBD.obtenerPublicaciones(
+        {_id: mongodb.ObjectID(id)}, function (publicaciones) {
+            if (publicaciones[0].autor === req.session.usuario) {
+                next();
+            } else {
+                res.redirect("/");
+            }
+        })
+});
+
+app.use("/user/publicaciones/eliminar", routerUsuarioAutor);
 
 //Controllers
 require("./routes/rhome.js")(app, swig);
 require("./routes/rusers.js")(app, swig, gestorBD);
 require("./routes/radmins.js")(app, swig, gestorBD);
-
+require("./routes/rpublicaciones.js")(app, swig, gestorBD);
 //Server Launch
 https.createServer({
     key: fs.readFileSync('certificates/alice.key'),

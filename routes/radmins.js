@@ -1,5 +1,5 @@
 module.exports = function (app, swig, gestorBD) {
-    app.get('/listUsers', function (req, res) {
+    app.get('/admin/listUsers', function (req, res) {
         let criterio = {}
         gestorBD.obtenerUsuarios(criterio, function (usuarios) {
             let respuesta = swig.renderFile('views/blistUsers.html', {
@@ -11,7 +11,7 @@ module.exports = function (app, swig, gestorBD) {
         })
     })
 
-    app.get('/eliminar/:id', function (req, res) {
+    app.get('/admin/eliminar/:id', function (req, res) {
         var parameters = req.params.id.split(",")
         let criterio = {}
         let criterios = []

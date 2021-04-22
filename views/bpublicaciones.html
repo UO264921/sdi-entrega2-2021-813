@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block titulo %} Mis publicaciones {% endblock %}
+
+{% block contenido_principal %}
+<h2>Mis publicaciones</h2>
+<br/>
+<a href="/user/publicaciones/publicar"><span class="glyphicon glyphicon-plus"></span> Agregar nuevo artículo </a>
+<br/>
+<br/>
+{% for publicacion in publicaciones %}
+<div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+    <div style=" width: 500px">
+        <img alt="publicacion" src="/img/publicacion.png" width="50px">
+        <div class="wrap"><b>Titulo</b>: {{ publicacion.titulo }}</div>
+        <div class="wrap"><b>Detalle</b>: {{ publicacion.detalle }}</div>
+        <div class="wrap"><b>Fecha</b>: {{ publicacion.fecha }}</div>
+        <div class="wrap"><b>Precio</b>: {{ publicacion.precio }}</div>
+        <a href="/user/publicaciones/eliminar/{{publicacion._id.toString()}}">Eliminar</a>
+    </div>
+</div>
+{%endfor%}
+{% endblock %}

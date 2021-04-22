@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block titulo %} Publicar nuevo articulo {% endblock %}
+
+{% block contenido_principal %}
+<h2>Publicar nuevo articulo</h2>
+<form class="form-horizontal" method="post" action="/user/publicaciones/publicar" >
+
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="titulo">Titulo:</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" name="titulo"
+                   placeholder="Titulo del articulo"  />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="detalle">Detalle:</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" name="detalle"
+                   placeholder="Detalle del articulo" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="precio">Precio:</label>
+        <div class="col-sm-10">
+            <input type="number" step=".01" class="form-control" name="precio"
+                   placeholder="Precio del articulo" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-primary">Aceptar</button>
+        </div>
+    </div>
+</form>
+{% endblock %}
