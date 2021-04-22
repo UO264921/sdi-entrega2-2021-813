@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block titulo %} Identificar usuario {% endblock %}
+
+{% block contenido_principal %}
+<h2>Listado de usuarios</h2>
+<br/>
+<button onclick="funcEliminar()">Eliminar</button>
+<br/>
+<br/>
+{% for i, usuario in usuarios %}
+<div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+    <div style=" width: 500px">
+        <img alt="usuario" src="/img/usuario.png" width="50px">
+        <div class="wrap"><b>Nombre</b>: {{ usuario.nombre }}</div>
+        <div class="wrap"><b>Apellidos</b>: {{ usuario.apellidos }}</div>
+        <div class="wrap"><b>Email</b>: {{ usuario.email }}</div>
+        <div class="wrap">Eliminar <input id = "checkbox{{i}}" name = "checkbox" type="checkbox"></div>
+    </div>
+</div>
+{%endfor%}
+<script>
+    var botones = []
+
+    function funcEliminar(){
+        var lista = []
+        for (var i=0; i < document.getElementsByName("checkbox").length; i++){
+            if (document.getElementById("checkbox"+i).checked){
+                lista.push(i);
+            }
+        }
+        window.location.replace("/eliminar/"+lista);
+    }
+
+</script>
+{% endblock %}

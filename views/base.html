@@ -23,19 +23,31 @@
             <a href="/"><img alt="logo" src="/img/icono.png" width="50px"/></a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
+            {% if (usuario != "") %}
+            {% if (admin) %}
+            <ul class="nav navbar-nav">
+                <li class="active" id="listUsers"><a href="/listUsers">Gestion de usuarios</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Desconectarse</a></li>
+            </ul>
+            {% else %}
             <ul class="nav navbar-nav">
                 <li class="active" id="mTienda"><a href="/tienda">Tienda</a></li>
                 <li id="mPublicaciones"><a href="/publicaciones">Publicaciones</a></li>
                 <li id="mCompras"><a href="/compras">Compras</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                {% if (usuario != "") %}
                 <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Desconectarse</a></li>
-                {% else %}
-                <li><a href="/registrarse"><span class="glyphicon glyphicon-user"></span> Registrate</a></li>
-                <li><a href="/identificarse"><span class="glyphicon glyphicon-log-in"></span> Identifícate</a></li>
-                {%endif%}
             </ul>
+            {%endif%}
+            {% else %}
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/registrarse"><span class="glyphicon glyphicon-user"></span> Registrate</a></li>
+                <li><a href="/identificarse"><span class="glyphicon glyphicon-log-in"></span> Identifícate</a>
+                </li>
+            </ul>
+            {%endif%}
         </div>
     </div>
 </nav>

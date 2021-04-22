@@ -43,4 +43,42 @@ module.exports = {
         });
     },
 
+    obtenerAdmins: function (criterio, funcionCallback) {
+        this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
+            if (err) {
+                funcionCallback(null);
+            } else {
+                let collection = db.collection('admins');
+                collection.find(criterio).toArray(function (err, admins) {
+                    if (err) {
+                        funcionCallback(null);
+                    } else {
+                        funcionCallback(admins);
+                    }
+                    db.close();
+                });
+            }
+        });
+    },
+
+    eliminarUsuario: function (lista, funcionCallback) {
+        this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
+            if (err) {
+                funcionCallback(null);
+            } else {
+                let collection = db.collection('users');
+                collection.deleteMany({
+                    "_id": {$in: lista}
+                }, function (err, result) {
+                    if (err) {
+                        funcionCallback(null);
+                    } else {
+                        funcionCallback(result);
+                    }
+                    db.close();
+                });
+            }
+        });
+    },
+
 };

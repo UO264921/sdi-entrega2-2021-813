@@ -11,10 +11,18 @@
       <img alt="logo" src="/img/carrito.png"/>
     </div>
   {% else %}
-    <h2>Bienvenido a MyWallapop, {{nombre}}</h2>
-    <div>
-      <h2>Disfruta de nuestras ofertas y publica las tuyas propias</h2>
-      <img alt="logo" src="/img/carrito.png"/>
-    </div>
+    {% if (admin == true) %}
+      <h2>Bienvenido a MyWallapop, {{nombre}}</h2>
+      <div>
+        <h2>Eres administrador del sistema, encárgate de gestionar usuarios</h2>
+        <img alt="logo" src="/img/admin.jpg"/>
+      </div>
+    {% else %}
+      <h2>Bienvenido a MyWallapop, {{nombre}}</h2>
+      <div>
+        <h2>Disfruta de nuestros productos y comparte los tuyos propios</h2>
+        <img alt="logo" src="/img/carrito.png"/>
+      </div>
+    {% endif %}
   {% endif %}
 {% endblock %}

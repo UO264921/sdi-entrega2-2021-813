@@ -35,26 +35,41 @@ app.set('clave', 'abcdefg'); // Criptado de contraseña
 //Router para identificar si el usuario esta logeado
 var routerUsuarioSession = express.Router();
 routerUsuarioSession.use(function (req, res, next) {
-    console.log("routerUsuarioSession");
     if (req.session.usuario) {
         next();
     } else {
-        console.log("va a : " + req.session.destino)
         res.redirect("/identificarse");
     }
 });
 app.use("/tienda", routerUsuarioSession);
 app.use("/publicaciones", routerUsuarioSession);
 app.use("/compras", routerUsuarioSession);
+app.use("/listUsers", routerUsuarioSession);
+
+
+//Router para identificar si el usuario es admin
+var routerUsuarioAdmin = express.Router();
+routerUsuarioSession.use(function (req, res, next) {
+    if (req.session.admin) {
+        next();
+    } else {
+        if (req.session.usuario)
+            res.redirect("/");
+        else
+            res.redirect("/identificarse");
+    }
+});
+app.use("/listUsers", routerUsuarioAdmin);
 
 //Controllers
 require("./routes/rhome.js")(app, swig);
 require("./routes/rusers.js")(app, swig, gestorBD);
+require("./routes/radmins.js")(app, swig, gestorBD);
 
 //Server Launch
 https.createServer({
     key: fs.readFileSync('certificates/alice.key'),
     cert: fs.readFileSync('certificates/alice.crt')
-}, app).listen(app.get('port'), function() {
+}, app).listen(app.get('port'), function () {
     console.log("Servidor activo")
 })
