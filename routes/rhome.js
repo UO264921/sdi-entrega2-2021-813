@@ -3,7 +3,8 @@ module.exports = function(app, swig){
         let respuesta = swig.renderFile('views/bhome.html', {
             usuario: req.session.usuario,
             admin: req.session.admin,
-            nombre: req.session.nombre
+            nombre: req.session.nombre,
+            dinero: req.session.dinero
         })
         res.send(respuesta);
     })

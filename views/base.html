@@ -33,9 +33,10 @@
             </ul>
             {% else %}
             <ul class="nav navbar-nav">
-                <li class="active" id="mTienda"><a href="/user/tienda">Tienda</a></li>
+                <li id="mTienda"><a href="/user/tienda">Tienda</a></li>
                 <li id="mPublicaciones"><a href="/user/publicaciones">Publicaciones</a></li>
                 <li id="mCompras"><a href="/user/compras">Compras</a></li>
+                <li id="dinero"><a style="color: #cd7f1b">Dinero: {{dinero}} eur.</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Desconectarse</a></li>

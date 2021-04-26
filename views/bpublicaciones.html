@@ -10,13 +10,13 @@
 <br/>
 {% for publicacion in publicaciones %}
 <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-    <div style=" width: 500px">
-        <img alt="publicacion" src="/img/publicacion.png" width="50px">
-        <div class="wrap"><b>Titulo</b>: {{ publicacion.titulo }}</div>
-        <div class="wrap"><b>Detalle</b>: {{ publicacion.detalle }}</div>
-        <div class="wrap"><b>Fecha</b>: {{ publicacion.fecha }}</div>
-        <div class="wrap"><b>Precio</b>: {{ publicacion.precio }}</div>
-        <a href="/user/publicaciones/eliminar/{{publicacion._id.toString()}}">Eliminar</a>
+    <div style=" width: 200px">
+        <img alt="logo" src="/img/publicacion.png"/>
+        <div class="wrap">{{ publicacion.titulo }}</div>
+        <div class="small">{{ publicacion.detalle }}</div>
+        <div class="small">{{ publicacion.fecha }}</div>
+        <div class="text-right">{{ publicacion.precio }} €</div>
+        <a style="border-radius:10px; padding: 6px; background-color: #793636; color: white" href="/user/publicaciones/eliminar/{{publicacion._id.toString()}}">Eliminar</a>
     </div>
 </div>
 {%endfor%}

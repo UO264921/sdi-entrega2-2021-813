@@ -5,7 +5,8 @@ module.exports = function (app, swig, gestorBD) {
             let respuesta = swig.renderFile('views/bpublicaciones.html', {
                 publicaciones: publicaciones,
                 usuario: req.session.usuario,
-                admin: req.session.admin
+                admin: req.session.admin,
+                dinero: req.session.dinero
             })
             res.send(respuesta);
         })
@@ -14,7 +15,8 @@ module.exports = function (app, swig, gestorBD) {
     app.get('/user/publicaciones/publicar', function (req, res) {
         let respuesta = swig.renderFile('views/bpublicar.html', {
             usuario: req.session.usuario,
-            admin: req.session.admin
+            admin: req.session.admin,
+            dinero: req.session.dinero
         })
         res.send(respuesta);
     })
@@ -32,7 +34,7 @@ module.exports = function (app, swig, gestorBD) {
                 detalle: req.body.detalle,
                 fecha: new Date().toJSON().slice(0, 10).replace(/-/g, '/'),
                 precio: req.body.precio,
-                autor: req.session.usuario
+                autor: req.session.usuario,
             }
 
             gestorBD.insertarPublicacion(publicacion, function (id) {

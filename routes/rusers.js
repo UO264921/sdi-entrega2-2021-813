@@ -32,6 +32,7 @@ module.exports = function (app, swig, gestorBD) {
                     req.session.usuario = usuarios[0].email;
                     req.session.admin = false;
                     req.session.nombre = usuarios[0].nombre;
+                    req.session.dinero = usuarios[0].dinero;
                     res.redirect("/");
                 }
             });
@@ -55,7 +56,8 @@ module.exports = function (app, swig, gestorBD) {
                 email: req.body.email,
                 password: seguro,
                 nombre: req.body.nombre,
-                apellidos: req.body.apellidos
+                apellidos: req.body.apellidos,
+                dinero: 100
             }
             let criterio = {
                 email: req.body.email

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block titulo %} Mis publicaciones {% endblock %}
+
+{% block contenido_principal %}
+<h2>Mis compras</h2>
+<br/>
+{% for compra in compras %}
+<div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+    <div style=" width: 200px">
+        <img alt="logo" src="/img/publicacion.png"/>
+        <div class="wrap">{{ compra.titulo }}</div>
+        <div class="small">{{ compra.detalle }}</div>
+        <div class="small">Vendedor: {{ compra.autor }}</div>
+        <div class="text-right">{{ compra.precio }} €</div>
+    </div>
+</div>
+{%endfor%}
+{% endblock %}

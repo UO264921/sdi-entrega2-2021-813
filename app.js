@@ -87,18 +87,53 @@ routerUsuarioAutor.use(function (req, res, next) {
             if (publicaciones[0].autor === req.session.usuario) {
                 next();
             } else {
-                res.redirect("/");
+                res.redirect("/user/publicaciones?mensaje=No eres el autor del producto&tipoMensaje=alert-danger");
             }
         })
 });
 
-app.use("/user/publicaciones/eliminar", routerUsuarioAutor);
+app.use("/user/publicaciones/eliminar/", routerUsuarioAutor);
+
+//routerUsuarioVendida
+let routerUsuarioVendida = express.Router();
+routerUsuarioVendida.use(function (req, res, next) {
+    let path = require('path');
+    let id = path.basename(req.originalUrl);
+    gestorBD.obtenerVentas(
+        {"productoID": id}, function (venta) {
+            if (venta.length === 0) {
+                next();
+            } else {
+                res.redirect("/?mensaje=El producto ya se ha vendido&tipoMensaje=alert-danger");
+            }
+        })
+});
+
+app.use("/user/tienda/comprar", routerUsuarioVendida);
+
+//routerUsuarioNoAutor
+let routerUsuarioNoAutor = express.Router();
+routerUsuarioNoAutor.use(function (req, res, next) {
+    let path = require('path');
+    let id = path.basename(req.originalUrl);
+    gestorBD.obtenerPublicaciones(
+        {_id: mongodb.ObjectID(id)}, function (publicaciones) {
+            if (publicaciones[0].autor !== req.session.usuario) {
+                next();
+            } else {
+                res.redirect("/user/tienda?mensaje=Eres el vendedor del producto&tipoMensaje=alert-danger");
+            }
+        })
+});
+
+app.use("/user/tienda/comprar", routerUsuarioNoAutor);
 
 //Controllers
 require("./routes/rhome.js")(app, swig);
 require("./routes/rusers.js")(app, swig, gestorBD);
 require("./routes/radmins.js")(app, swig, gestorBD);
 require("./routes/rpublicaciones.js")(app, swig, gestorBD);
+require("./routes/rtienda.js")(app, swig, gestorBD);
 //Server Launch
 https.createServer({
     key: fs.readFileSync('certificates/alice.key'),
