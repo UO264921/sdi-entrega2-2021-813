@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ofertas</title>
+</head>
+<body>
+<div id="widget-ofertas">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th><a>Titulo</a></th>
+            <th><a>Detalles</a></th>
+            <th><a>Precio</a></th>
+            <th><a>Fecha</a></th>
+            <th><a>Autor</a></th>
+            <th class="col-md-3"></th>
+        </tr>
+        </thead>
+        <tbody id="tablaCuerpo">
+
+        </tbody>
+    </table>
+</div>
+<script>
+    window.history.pushState("", "", "/cliente.html?w=ofertas");
+    var ofertas;
+    function cargarOfertas() {
+        $.ajax({
+            url: URLbase + "/oferta",
+            type: "GET",
+            data: {},
+            dataType: 'json',
+            headers: {"token": token},
+            success: function (respuesta) {
+                ofertas = respuesta;
+                actualizarTabla(ofertas);
+            },
+            error: function (error) {
+                $("#contenedor-principal").load("widget-login.html");
+            }
+        });
+    }
+
+    function actualizarTabla(ofertas) {
+        $("#tablaCuerpo").empty(); // Vaciar la tabla
+        for (i = 0; i < ofertas.length; i++) {
+            var oferta = ofertas[i];
+            var ident = oferta._id
+            $("#tablaCuerpo").append(
+                "<tr id=" + ofertas[i]._id + ">" +
+                "<td>" + oferta.titulo + "</td>" +
+                "<td>" + oferta.detalle + "</td>" +
+                "<td>" + oferta.precio + "</td>" +
+                "<td>" + oferta.fecha + "</td>" +
+                "<td>" + oferta.autor + "</td>" +
+                "<td> <button onclick = widgetMensajes('"+ident+"')> Enviar mensaje </button> </td> " +
+                "</tr>"
+                )
+        }
+    }
+
+    function widgetMensajes(o) {
+        idOferta = o
+        $("#contenedor-principal").load("widget-mensajes.html");
+    }
+
+    cargarOfertas();
+</script>
+</body>
+</html>

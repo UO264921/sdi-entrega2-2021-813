@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mis productos</title>
+</head>
+<body>
+<div id="widget-ofertas">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th><a>Titulo</a></th>
+            <th><a>Detalles</a></th>
+            <th><a>Precio</a></th>
+            <th><a>Fecha</a></th>
+            <th class="col-md-3"></th>
+        </tr>
+        </thead>
+        <tbody id="tablaCuerpo">
+
+        </tbody>
+    </table>
+</div>
+<script>
+    window.history.pushState("", "", "/cliente.html?w=misproductos");
+    var ofertas;
+    function cargarOfertas() {
+        $.ajax({
+            url: URLbase + "/misproductos",
+            type: "GET",
+            data: {},
+            dataType: 'json',
+            headers: {"token": token},
+            success: function (respuesta) {
+                ofertas = respuesta;
+                actualizarTabla(ofertas);
+            },
+            error: function (error) {
+            }
+        });
+    }
+
+    function actualizarTabla(ofertas) {
+        $("#tablaCuerpo").empty();
+        for (i = 0; i < ofertas.length; i++) {
+            var oferta = ofertas[i];
+            var ident = oferta._id
+            $("#tablaCuerpo").append(
+                "<tr id=" + ofertas[i]._id + ">" +
+                "<td>" + oferta.titulo + "</td>" +
+                "<td>" + oferta.detalle + "</td>" +
+                "<td>" + oferta.precio + "</td>" +
+                "<td>" + oferta.fecha + "</td>" +
+                "<td> <button onclick = widgetMensajes('"+ident+"')> Ver mensaje </button> </td> " +
+                "</tr>"
+                )
+        }
+    }
+
+    function widgetMensajes(o) {
+        idOferta = o
+        $("#contenedor-principal").load("widget-mensajes.html");
+    }
+
+    cargarOfertas();
+</script>
+</body>
+</html>

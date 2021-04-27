@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mensajes</title>
+</head>
+<body>
+<div id="widget-ofertas">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th><a>Mensajes</a></th>
+            <th class="col-md-4"></th>
+        </tr>
+        </thead>
+        <tbody id="tablaCuerpo">
+
+        </tbody>
+    </table>
+    <div id="envioMensaje">
+
+    </div>
+</div>
+<script>
+    window.history.pushState("", "", "/cliente.html?w=mensajes");
+
+    var mensajes;
+
+    function cargarMensajes() {
+        $.ajax({
+            url: URLbase + "/mensaje/" + idOferta,
+            type: "GET",
+            data: {},
+            dataType: 'json',
+            headers: {"token": token},
+            success: function (respuesta) {
+                mensajes = respuesta;
+                actualizarTabla(mensajes);
+            },
+            error: function () {
+                $("#contenedor-principal").load("widget-ofertas.html");
+            }
+        });
+    }
+
+    function actualizarTabla(mensajes) {
+        $("#tablaCuerpo").empty();
+        if (mensajes.length > 0) {
+            for (i = 0; i < mensajes.length; i++) {
+                $("#tablaCuerpo").append(
+                    "<tr id=" + mensajes[i]._id + ">" +
+                    "<td>" + mensajes[i].origen + "</td>" +
+                    "<td>" + mensajes[i].texto + "</td>" +
+                    "<td>" + mensajes[i].fecha + "</td>" +
+                    "<td>" + mensajes[i].leido + "</td>" +
+                    "</tr>");
+                $("#envioMensaje").append(
+                    "<div class=\"form-group\">\n" +
+                    "            <div class=\"col-sm-10\">\n" +
+                    "                <input class=\"form-control\" id=\"mensaje\" name=\"mensaje\"\n" +
+                    "                       placeholder=\"Escribe el mensaje\" type=\"text\"/>\n" +
+                    "            </div>\n" +
+                    "        </div>\n" +
+                    "        <div class=\"form-group\">\n" +
+                    "            <div class=\"col-sm-offset-2 col-sm-10\">\n" +
+                    "                <button id=\"boton-mensaje\" onclick=\"enviarMensajes()\" type=\"button\">Enviar</button>\n" +
+                    "            </div>\n" +
+                    "        </div>"
+                );
+            }
+        } else {
+            $("#tablaCuerpo").append(
+                "<tr id=" + "No message" + ">" +
+                "<td>" + "No hay mensajes disponibles" + "</td>" +
+                "</tr>");
+        }
+    }
+
+    function enviarMensajes() {
+        $.ajax({
+            url: URLbase + "/mensaje/" + idOferta,
+            type: "POST",
+            data: {
+                texto: $("#mensaje").val()
+            },
+            dataType: 'json',
+            headers: {"token": token},
+            success: function (respuesta) {
+                mensajes = respuesta;
+                actualizarTabla(mensajes);
+            },
+            error: function () {
+                $("#contenedor-principal").load("widget-mensajes.html");
+            }
+        });
+    }
+
+    cargarMensajes();
+</script>
+</body>
+</html>

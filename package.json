@@ -6,6 +6,8 @@
     "swig": "^1.4.2"
   },
   "devDependencies": {
-    "express-session": "^1.17.1"
+    "express-session": "^1.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "request": "^2.88.2"
   }
 }
