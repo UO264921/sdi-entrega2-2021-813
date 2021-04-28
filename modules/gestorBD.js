@@ -263,17 +263,79 @@ module.exports = {
         });
     },
 
-    obtenerMisPublicaciones: function (lista, funcionCallback) {
+    eliminarPublicacionesDeUsuarios: function (lista, funcionCallback) {
         this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
             if (err) {
                 funcionCallback(null);
             } else {
                 let collection = db.collection('publicaciones');
-                collection.find({"_id": {$in: lista}}).toArray(function (err, admins) {
+                collection.deleteMany({
+                    "autor": {$in: lista}
+                }, function (err, result) {
                     if (err) {
                         funcionCallback(null);
                     } else {
-                        funcionCallback(admins);
+                        funcionCallback(result);
+                    }
+                    db.close();
+                });
+            }
+        });
+    },
+
+    eliminarMensajesDeUsuarios: function (lista, funcionCallback) {
+        this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
+            if (err) {
+                funcionCallback(null);
+            } else {
+                let collection = db.collection('mensajes');
+                collection.deleteMany({
+                    "origen": {$in: lista}
+                }, function (err, result) {
+                    if (err) {
+                        funcionCallback(null);
+                    } else {
+                        funcionCallback(result);
+                    }
+                    db.close();
+                });
+            }
+        });
+    },
+
+    eliminarMensajesAUsuarios: function (lista, funcionCallback) {
+        this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
+            if (err) {
+                funcionCallback(null);
+            } else {
+                let collection = db.collection('mensajes');
+                collection.deleteMany({
+                    "destino": {$in: lista}
+                }, function (err, result) {
+                    if (err) {
+                        funcionCallback(null);
+                    } else {
+                        funcionCallback(result);
+                    }
+                    db.close();
+                });
+            }
+        });
+    },
+
+    eliminarComprasDeUsuarios: function (lista, funcionCallback) {
+        this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
+            if (err) {
+                funcionCallback(null);
+            } else {
+                let collection = db.collection('ventas');
+                collection.deleteMany({
+                    "usuario": {$in: lista}
+                }, function (err, result) {
+                    if (err) {
+                        funcionCallback(null);
+                    } else {
+                        funcionCallback(result);
                     }
                     db.close();
                 });

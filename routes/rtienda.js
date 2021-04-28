@@ -1,8 +1,9 @@
 module.exports = function (app, swig, gestorBD) {
     app.get("/user/tienda", function (req, res) {
         let criterio = {};
+        var regex = new RegExp(["^.*", req.query.busqueda, ".*$"].join(""), "i");
         if (req.query.busqueda != null) {
-            criterio = {"titulo": {$regex: ".*" + req.query.busqueda.toLowerCase() + ".*"}};
+            criterio = {"titulo": regex};
         }
 
         let pg = parseInt(req.query.pg);
@@ -59,10 +60,10 @@ module.exports = function (app, swig, gestorBD) {
                     precio: publicacion[0].precio,
                     autor: publicacion[0].autor
                 }
-                if (parseInt(req.session.dinero) - parseInt(publicacion[0].precio) < 0) {
+                if (parseFloat(req.session.dinero) - parseFloat(publicacion[0].precio) < 0) {
                     res.redirect("/user/tienda?mensaje=No tienes suficiente dinero&tipoMensaje=alert-danger");
                 } else {
-                    req.session.dinero = "" + parseInt(req.session.dinero) - parseInt(publicacion[0].precio);
+                    req.session.dinero = "" + parseFloat(req.session.dinero) - parseFloat(publicacion[0].precio);
                     let user = {
                         dinero: req.session.dinero
                     }

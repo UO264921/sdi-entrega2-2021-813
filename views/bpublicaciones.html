@@ -5,10 +5,10 @@
 {% block contenido_principal %}
 <h2>Mis publicaciones</h2>
 <br/>
-<a href="/user/publicaciones/publicar"><span class="glyphicon glyphicon-plus"></span> Agregar nuevo artículo </a>
+<a id = "publicar" href="/user/publicaciones/publicar"><span class="glyphicon glyphicon-plus"></span> Agregar nuevo artículo </a>
 <br/>
 <br/>
-{% for publicacion in publicaciones %}
+{% for i, publicacion in publicaciones %}
 <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
     <div style=" width: 200px">
         <img alt="logo" src="/img/publicacion.png"/>
@@ -16,7 +16,7 @@
         <div class="small">{{ publicacion.detalle }}</div>
         <div class="small">{{ publicacion.fecha }}</div>
         <div class="text-right">{{ publicacion.precio }} €</div>
-        <a style="border-radius:10px; padding: 6px; background-color: #793636; color: white" href="/user/publicaciones/eliminar/{{publicacion._id.toString()}}">Eliminar</a>
+        <a class="eliminar{{i}}" style="border-radius:10px; padding: 6px; background-color: #793636; color: white" href="/user/publicaciones/eliminar/{{publicacion._id.toString()}}">Eliminar</a>
     </div>
 </div>
 {%endfor%}

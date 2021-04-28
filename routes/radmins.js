@@ -2,6 +2,7 @@ module.exports = function (app, swig, gestorBD) {
     app.get('/admin/listUsers', function (req, res) {
         let criterio = {}
         gestorBD.obtenerUsuarios(criterio, function (usuarios) {
+            usuarios = usuarios.sort((a, b) => (a.nombre > b.nombre) ? 1 : ((b.nombre > a.nombre) ? -1 : 0))
             let respuesta = swig.renderFile('views/blistUsers.html', {
                 usuarios: usuarios,
                 usuario: req.session.usuario,
@@ -15,15 +16,36 @@ module.exports = function (app, swig, gestorBD) {
         var parameters = req.params.id.split(",")
         let criterio = {}
         let criterios = []
+        let emails = []
         gestorBD.obtenerUsuarios(criterio, function (usuarios) {
+            usuarios = usuarios.sort((a, b) => (a.nombre > b.nombre) ? 1 : ((b.nombre > a.nombre) ? -1 : 0))
             for (var i in parameters) {
-                criterios.push(usuarios[i]._id)
+                criterios.push(usuarios[parameters[i]]._id)
+                emails.push(usuarios[parameters[i]].email)
             }
-            gestorBD.eliminarUsuario(criterios, function (eliminados, next) {
+            gestorBD.eliminarUsuario(criterios, function (eliminados) {
                 if (eliminados == null) {
-                    res.redirect("/listUsers?mensaje=Error en el borrado&tipoMensaje=alert-danger");
+                    res.redirect("/admin/listUsers?mensaje=Error en el borrado de usuarios&tipoMensaje=alert-danger");
                 } else {
-                    res.redirect("/listUsers?mensaje=Éxito en el borrado de usuarios");
+                    gestorBD.eliminarPublicacionesDeUsuarios(emails, function (publicaciones) {
+                        if (publicaciones == null) {
+                            res.redirect("/admin/listUsers?mensaje=Error en el borrado de publicaciones&tipoMensaje=alert-danger");
+                        } else {
+                            gestorBD.eliminarMensajesDeUsuarios(emails, function (mensajes) {
+                                if (mensajes == null) {
+                                    res.redirect("/admin/listUsers?mensaje=Error en el borrado de mensajes&tipoMensaje=alert-danger");
+                                } else {
+                                    gestorBD.eliminarMensajesAUsuarios(emails, function (mensajes) {
+                                        if (mensajes == null) {
+                                            res.redirect("/admin/listUsers?mensaje=Error en el borrado de mensajes&tipoMensaje=alert-danger");
+                                        } else {
+                                            res.redirect("/admin/listUsers?mensaje=Éxito en el borrado de usuarios");
+                                        }
+                                    })
+                                }
+                            })
+                        }
+                    })
                 }
             })
         })

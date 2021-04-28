@@ -117,7 +117,6 @@ module.exports = function (app, gestorBD) {
                             texto: req.body.texto,
                             destino: oferta[0].autor,
                             leido: "No leido",
-                            order: order
                         }
                         gestorBD.insertarMensaje(mensaje, function (insertado) {
                             if (insertado != null) {
@@ -133,7 +132,6 @@ module.exports = function (app, gestorBD) {
                             texto: req.body.texto,
                             destino: mensajes[0].origen,
                             leido: "No leido",
-                            order: order
                         }
                         gestorBD.insertarMensaje(mensaje, function (insertado) {
                             if (insertado != null) {
