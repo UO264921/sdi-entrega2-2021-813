@@ -1,0 +1,9 @@
+[2021-05-04T18:11:42.387] [INFO] default - Inicio de sesion del usuario: nueva1@nueva1.com
+[2021-05-04T18:12:02.650] [INFO] default - Se ha publicado una oferta por el usuario: nueva1@nueva1.com
+[2021-05-04T18:12:09.290] [INFO] default - Se ha eliminado una oferta por el usuario: nueva1@nueva1.com
+[2021-05-04T18:12:16.542] [INFO] default - Se ha desconectado el usuario: nueva1@nueva1.com
+[2021-05-04T18:12:23.411] [INFO] default - Inicio de sesion del admin: admin@admin.com
+[2021-05-04T18:12:35.392] [INFO] default - Se ha/n eliminado el/los usuario/s: nueva1@nueva1.compor el administrador: admin@admin.com
+[2021-05-04T18:12:46.344] [INFO] default - Se ha desconectado el usuario: admin@admin.com
+[2021-05-04T18:13:17.851] [INFO] default - Inicio de sesion del usuario: prueba1@prueba1.com
+[2021-05-04T18:13:20.881] [INFO] default - Se ha desconectado el usuario: prueba1@prueba1.com

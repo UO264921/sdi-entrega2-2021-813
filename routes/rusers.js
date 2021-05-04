@@ -1,4 +1,4 @@
-module.exports = function (app, swig, gestorBD) {
+module.exports = function (app, swig, gestorBD, logger) {
     app.get('/identificarse', function (req, res) {
         let respuesta = swig.renderFile('views/bidentificacion.html', {})
         res.send(respuesta);
@@ -22,6 +22,7 @@ module.exports = function (app, swig, gestorBD) {
                                 "?mensaje=Email o contraseña incorrectos" +
                                 "&tipoMensaje=alert-danger ");
                         } else {
+                            logger.info("Inicio de sesion del admin: " + admins[0].email);
                             req.session.usuario = admins[0].email;
                             req.session.admin = true;
                             req.session.nombre = admins[0].nombre;
@@ -29,6 +30,7 @@ module.exports = function (app, swig, gestorBD) {
                         }
                     })
                 } else {
+                    logger.info("Inicio de sesion del usuario: " + usuarios[0].email);
                     req.session.usuario = usuarios[0].email;
                     req.session.admin = false;
                     req.session.nombre = usuarios[0].nombre;
@@ -80,6 +82,7 @@ module.exports = function (app, swig, gestorBD) {
     })
 
     app.get('/logout', function (req, res) {
+        logger.info("Se ha desconectado el usuario: " + req.session.usuario);
         req.session.usuario = null;
         res.redirect("/identificarse");
     })

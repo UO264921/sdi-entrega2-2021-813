@@ -1,7 +1,12 @@
 let express = require('express') //Modulo express
 let app = express()
 let swig = require('swig') // Modulo swig para render de las vistas
-
+let log4js = require("log4js");
+log4js.configure({
+    appenders: { myWallapop: { type: "file", filename: "myWallapop.log" } },
+    categories: { default: { appenders: ["myWallapop"], level: "info" } }
+});
+let logger = log4js.getLogger();
 let bodyParser = require('body-parser'); // Parsear body de post a req.body.*
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -165,10 +170,10 @@ app.use('/api/misproductos', routerUsuarioToken);
 
 //Controllers
 require("./routes/rhome.js")(app, swig);
-require("./routes/rusers.js")(app, swig, gestorBD);
-require("./routes/radmins.js")(app, swig, gestorBD);
-require("./routes/rpublicaciones.js")(app, swig, gestorBD);
-require("./routes/rtienda.js")(app, swig, gestorBD);
+require("./routes/rusers.js")(app, swig, gestorBD, logger);
+require("./routes/radmins.js")(app, swig, gestorBD, logger);
+require("./routes/rpublicaciones.js")(app, swig, gestorBD, logger);
+require("./routes/rtienda.js")(app, swig, gestorBD, logger);
 require("./routes/rapiofertas.js")(app, gestorBD);
 
 //Server Launch

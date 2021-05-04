@@ -1,4 +1,4 @@
-module.exports = function (app, swig, gestorBD) {
+module.exports = function (app, swig, gestorBD, logger) {
     app.get('/user/publicaciones', function (req, res) {
         let criterio = {autor: req.session.usuario}
         gestorBD.obtenerPublicaciones(criterio, function (publicaciones) {
@@ -42,6 +42,7 @@ module.exports = function (app, swig, gestorBD) {
                 if (id == null) {
                     res.send("Error al insertar la publicacion");
                 } else {
+                    logger.info("Se ha publicado una oferta por el usuario: " + req.session.usuario);
                     res.redirect("/user/publicaciones");
                 }
             })
@@ -52,9 +53,10 @@ module.exports = function (app, swig, gestorBD) {
         gestorBD.eliminarPublicaciones(criterio, function (publicaciones) {
             if (publicaciones == null)
                 res.redirect("/user/publicaciones?mensaje=Error al eliminar&tipoMensaje=alert-danger");
-            else
+            else {
+                logger.info("Se ha eliminado una oferta por el usuario: " + req.session.usuario);
                 res.redirect("/user/publicaciones?mensaje=Se ha eliminado correctamente");
-        })
+            }})
     })
 
 }

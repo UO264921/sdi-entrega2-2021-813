@@ -1,4 +1,4 @@
-module.exports = function (app, swig, gestorBD) {
+module.exports = function (app, swig, gestorBD, logger) {
     app.get("/user/tienda", function (req, res) {
         let criterio = {};
         var regex = new RegExp(["^.*", req.query.busqueda, ".*$"].join(""), "i");
@@ -75,6 +75,7 @@ module.exports = function (app, swig, gestorBD) {
                                 if (updated == null) {
                                     res.redirect("/user/tienda?mensaje=Error en la compra&tipoMensaje=alert-danger");
                                 } else {
+                                    logger.info("Se ha comprado una oferta por el usuario: " + req.session.usuario);
                                     res.redirect("/user/compras?mensaje=Se ha realizado la compra correctamente");
                                 }
                             })

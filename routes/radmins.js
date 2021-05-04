@@ -1,4 +1,4 @@
-module.exports = function (app, swig, gestorBD) {
+module.exports = function (app, swig, gestorBD, logger) {
     app.get('/admin/listUsers', function (req, res) {
         let criterio = {}
         gestorBD.obtenerUsuarios(criterio, function (usuarios) {
@@ -39,6 +39,7 @@ module.exports = function (app, swig, gestorBD) {
                                         if (mensajes == null) {
                                             res.redirect("/admin/listUsers?mensaje=Error en el borrado de mensajes&tipoMensaje=alert-danger");
                                         } else {
+                                            logger.info("Se ha/n eliminado el/los usuario/s: " + emails + " por el administrador: " + req.session.usuario);
                                             res.redirect("/admin/listUsers?mensaje=Éxito en el borrado de usuarios");
                                         }
                                     })
