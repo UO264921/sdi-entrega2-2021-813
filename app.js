@@ -24,8 +24,8 @@ app.use(express.static('public'));
 let crypto = require('crypto'); // Modulo criptado de contraseña
 let jwt = require('jsonwebtoken');
 let rest = require('request');
-app.set('jwt',jwt);
-app.set('rest',rest);
+app.set('jwt', jwt);
+app.set('rest', rest);
 
 //Variables
 app.set('port', 8081) // Variable puerto 8081
@@ -133,14 +133,14 @@ app.use("/user/tienda/comprar", routerUsuarioNoAutor);
 
 // routerUsuarioToken
 let routerUsuarioToken = express.Router();
-routerUsuarioToken.use(function(req, res, next) {
+routerUsuarioToken.use(function (req, res, next) {
     let token = req.headers['token'] || req.body.token || req.query.token;
     if (token != null) {
-        jwt.verify(token, 'secreto', function(err, infoToken) {
-            if (err || (Date.now()/1000 - infoToken.tiempo) > 240 ){
+        jwt.verify(token, 'secreto', function (err, infoToken) {
+            if (err || (Date.now() / 1000 - infoToken.tiempo) > 240) {
                 res.status(403); // Forbidden
                 res.json({
-                    acceso : false,
+                    acceso: false,
                     error: 'Token invalido o caducado'
                 });
                 return;
@@ -152,7 +152,7 @@ routerUsuarioToken.use(function(req, res, next) {
     } else {
         res.status(403);
         res.json({
-            acceso : false,
+            acceso: false,
             mensaje: 'No hay Token'
         });
     }
