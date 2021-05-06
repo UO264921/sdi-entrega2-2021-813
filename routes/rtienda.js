@@ -1,4 +1,6 @@
 module.exports = function (app, swig, gestorBD, logger) {
+
+    // Vista de la tienda de la aplicacion
     app.get("/user/tienda", function (req, res) {
         let criterio = {};
         var regex = new RegExp(["^.*", req.query.busqueda, ".*$"].join(""), "i");
@@ -25,7 +27,6 @@ module.exports = function (app, swig, gestorBD, logger) {
                         paginas.push(i);
                     }
                 }
-
                 let criterio1 = {}
                 gestorBD.obtenerVentas(criterio1, function (ventas) {
                     let productosVendidos = []
@@ -46,6 +47,7 @@ module.exports = function (app, swig, gestorBD, logger) {
         });
     });
 
+    // Compra de una oferta
     app.get("/user/tienda/comprar/:id", function (req, res) {
         let productoID = gestorBD.mongo.ObjectID(req.params.id);
         gestorBD.obtenerPublicaciones({"_id": productoID}, function (publicacion) {
@@ -85,6 +87,8 @@ module.exports = function (app, swig, gestorBD, logger) {
             }
         })
     });
+
+    // Vista de las compras del usuario
     app.get("/user/compras/", function (req, res) {
         let criterio = {"usuario": req.session.usuario}
         gestorBD.obtenerVentas(criterio, function (compras) {

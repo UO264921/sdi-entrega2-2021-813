@@ -1,4 +1,6 @@
 module.exports = function (app, swig, gestorBD, logger) {
+
+    // Obtener ofertas
     app.get('/user/publicaciones', function (req, res) {
         let criterio = {autor: req.session.usuario}
         gestorBD.obtenerPublicaciones(criterio, function (publicaciones) {
@@ -13,6 +15,7 @@ module.exports = function (app, swig, gestorBD, logger) {
         })
     })
 
+    // Vista para publicar oferta
     app.get('/user/publicaciones/publicar', function (req, res) {
         let respuesta = swig.renderFile('views/bpublicar.html', {
             usuario: req.session.usuario,
@@ -22,6 +25,7 @@ module.exports = function (app, swig, gestorBD, logger) {
         res.send(respuesta);
     })
 
+    // Publicacion de oferta
     app.post('/user/publicaciones/publicar', function (req, res) {
         if (req.body.titulo.length < 3)
             res.redirect("/user/publicaciones/publicar?mensaje=El titulo debe tener como minimo 2 caracteres&tipoMensaje=alert-danger");
@@ -48,6 +52,8 @@ module.exports = function (app, swig, gestorBD, logger) {
             })
         }
     })
+
+    // Eliminacion de publicacion
     app.get('/user/publicaciones/eliminar/:id', function (req, res) {
         let criterio = {_id: gestorBD.mongo.ObjectID(req.params.id)}
         gestorBD.eliminarPublicaciones(criterio, function (publicaciones) {

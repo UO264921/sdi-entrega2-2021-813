@@ -345,7 +345,7 @@ public class SdiEntrega2TestsParte1 {
 		PO_LoginView.fillForm(driver, "prueba1@prueba1.com", "prueba1");
 		List<WebElement> elementos = PO_View.checkElement(driver, "id", "mTienda");
 		elementos.get(0).click();
-
+		SeleniumUtils.EsperaCargaPagina(driver, "text", "Productos", PO_View.getTimeout());
 		PO_BuscarView.fillForm(driver, "");
 		List<WebElement> paginas = PO_View.checkElement(driver, "free", "//a[contains(@class, 'page-link')]");
 		int contador = 0;
@@ -353,8 +353,9 @@ public class SdiEntrega2TestsParte1 {
 			paginas.get(i).click();
 			paginas = PO_View.checkElement(driver, "free", "//a[contains(@class, 'page-link')]");
 			contador += SeleniumUtils
-					.EsperaCargaPagina(driver, "free", "//div[contains(@id, 'producto')]", PO_View.getTimeout()).size();
+					.EsperaCargaPagina(driver, "free", "//div[@class='container']/div[@class='row']/div[@class='col-md-2']", PO_View.getTimeout()).size();
 		}
+		System.out.println("Contador: " + contador);
 		assertTrue(contador == 9);
 	}
 
@@ -377,7 +378,8 @@ public class SdiEntrega2TestsParte1 {
 			}
 			paginas.get(i).click();
 			paginas = PO_View.checkElement(driver, "free", "//a[contains(@class, 'page-link')]");
-			contador += PO_View.checkElement(driver, "free", "//div[contains(@id, 'producto')]").size();
+			contador += SeleniumUtils
+					.EsperaCargaPagina(driver, "free", "//div[@class='container']/div[@class='row']/div[@class='col-md-2']", PO_View.getTimeout()).size();
 		}
 		assertTrue(contador == 0);
 	}
@@ -389,9 +391,10 @@ public class SdiEntrega2TestsParte1 {
 		PO_LoginView.fillForm(driver, "prueba1@prueba1.com", "prueba1");
 		List<WebElement> elementos = PO_View.checkElement(driver, "id", "mTienda");
 		elementos.get(0).click();
+		SeleniumUtils.EsperaCargaPagina(driver, "text", "Productos", PO_View.getTimeout());
 		PO_BuscarView.fillForm(driver, "CARGADOR");
 		int i = SeleniumUtils
-				.EsperaCargaPagina(driver, "free", "//div[contains(@id, 'producto')]", PO_View.getTimeout()).size();
+				.EsperaCargaPagina(driver, "free", "//div[@class='container']/div[@class='row']/div[@class='col-md-2']", PO_View.getTimeout()).size();
 		assertTrue(i == 1);
 	}
 
@@ -416,6 +419,7 @@ public class SdiEntrega2TestsParte1 {
 		PO_LoginView.fillForm(driver, "test1@test1.com", "test1");
 		elementos = PO_View.checkElement(driver, "id", "mTienda");
 		elementos.get(0).click();
+		SeleniumUtils.EsperaCargaPagina(driver, "text", "Productos", PO_View.getTimeout());
 		PO_BuscarView.fillForm(driver, "ProductoPrueba");
 		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/user/tienda/comprar/')]");
 		elementos.get(0).click();
@@ -511,7 +515,7 @@ public class SdiEntrega2TestsParte1 {
 		assertTrue(elementos.size() == 4);
 		driver.findElement(By.className("eliminar3")).click();
 		elementos = SeleniumUtils.EsperaCargaPagina(driver, "text", "Se ha eliminado correctamente", PO_View.getTimeout());
-		elementos = SeleniumUtils.EsperaCargaPagina(driver, "text", "Eliminar", PO_View.getTimeout());
+		elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//div[@class='container']/div[@class='col-xs-6 col-sm-6 col-md-4 col-lg-3']", PO_View.getTimeout());
 		assertTrue(elementos.size() == 3);
 	}
 

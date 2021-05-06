@@ -1,3 +1,7 @@
+/*
+Gestor de servicios que acceden a la base de datos
+ */
+
 module.exports = {
     mongo: null,
     app: null,
@@ -7,6 +11,7 @@ module.exports = {
         this.app = app;
     },
 
+    // Insercion de un usuario en la base
     insertarUsuario: function (usuario, funcionCallback) {
         this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
             if (err) {
@@ -25,6 +30,7 @@ module.exports = {
         });
     },
 
+    // Obtencion de usuarios de la base
     obtenerUsuarios: function (criterio, funcionCallback) {
         this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
             if (err) {
@@ -43,6 +49,7 @@ module.exports = {
         });
     },
 
+    // Obtencion de administradores de la base
     obtenerAdmins: function (criterio, funcionCallback) {
         this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
             if (err) {
@@ -61,6 +68,7 @@ module.exports = {
         });
     },
 
+    // Eliminacion de usuarios de la base
     eliminarUsuario: function (lista, funcionCallback) {
         this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
             if (err) {
@@ -81,6 +89,7 @@ module.exports = {
         });
     },
 
+    // Obtencion de publicaciones de la base
     obtenerPublicaciones: function (criterio, funcionCallback) {
         this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
             if (err) {
@@ -99,6 +108,7 @@ module.exports = {
         });
     },
 
+    // Insercion de una publicacion de la base
     insertarPublicacion: function (publicacion, funcionCallback) {
         this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
             if (err) {
@@ -116,6 +126,8 @@ module.exports = {
             }
         });
     },
+
+    // Eliminacion de publicaciones de la base
     eliminarPublicaciones: function (criterio, funcionCallback) {
         this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
             if (err) {
@@ -134,15 +146,16 @@ module.exports = {
         });
     },
 
-    obtenerProductosPg : function(criterio,pg,funcionCallback){
-        this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
+    // Obtencion de productos de cara a la paginacion
+    obtenerProductosPg: function (criterio, pg, funcionCallback) {
+        this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
             if (err) {
                 funcionCallback(null);
             } else {
                 let collection = db.collection('publicaciones');
-                collection.count(function(err, count){
-                    collection.find(criterio).skip( (pg-1)*5 ).limit( 5 )
-                        .toArray(function(err, canciones) {
+                collection.count(function (err, count) {
+                    collection.find(criterio).skip((pg - 1) * 5).limit(5)
+                        .toArray(function (err, canciones) {
                             if (err) {
                                 funcionCallback(null);
                             } else {
@@ -155,6 +168,7 @@ module.exports = {
         });
     },
 
+    // Insertar una venta realizada en la base
     insertarVenta: function (compra, funcionCallback) {
         this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
             if (err) {
@@ -173,6 +187,7 @@ module.exports = {
         });
     },
 
+    // Obtencion de ventas de la base
     obtenerVentas: function (criterio, funcionCallback) {
         this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
             if (err) {
@@ -190,6 +205,8 @@ module.exports = {
             }
         });
     },
+
+    // Actualizacion del dinero para el usuario X
     updateDineroUsuario: function (criterio, usuario, funcionCallback) {
         this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
             if (err) {
@@ -208,6 +225,7 @@ module.exports = {
         });
     },
 
+    // Obtencion de mensajes de la base
     obtenerMensajes: function (criterio, funcionCallback) {
         this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
             if (err) {
@@ -225,6 +243,8 @@ module.exports = {
             }
         });
     },
+
+    // Inserción de mensajes en la base
     insertarMensaje: function (mensaje, funcionCallback) {
         this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
             if (err) {
@@ -243,6 +263,7 @@ module.exports = {
         });
     },
 
+    // Actualización de leido de mensajes
     updateLeido: function (lista, mensaje, funcionCallback) {
         this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
             if (err) {
@@ -263,6 +284,7 @@ module.exports = {
         });
     },
 
+    // Eliminacion de publicaciones para el usuario X
     eliminarPublicacionesDeUsuarios: function (lista, funcionCallback) {
         this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
             if (err) {
@@ -283,6 +305,7 @@ module.exports = {
         });
     },
 
+    // Eliminacion de mensajes enviados del usuario X
     eliminarMensajesDeUsuarios: function (lista, funcionCallback) {
         this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
             if (err) {
@@ -303,6 +326,7 @@ module.exports = {
         });
     },
 
+    // Eliminacion de mensajes enviados al usuario X
     eliminarMensajesAUsuarios: function (lista, funcionCallback) {
         this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
             if (err) {
@@ -323,6 +347,7 @@ module.exports = {
         });
     },
 
+    // Eliminacion de compras del usuario X
     eliminarComprasDeUsuarios: function (lista, funcionCallback) {
         this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
             if (err) {

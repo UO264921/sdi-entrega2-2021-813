@@ -1,9 +1,12 @@
 module.exports = function (app, swig, gestorBD, logger) {
+
+    // Vista de login de usuario
     app.get('/identificarse', function (req, res) {
         let respuesta = swig.renderFile('views/bidentificacion.html', {})
         res.send(respuesta);
     })
 
+    // Identificacion de usuario
     app.post("/identificarse", function (req, res) {
         let seguro = app.get("crypto").createHmac('sha256', app.get('clave')).update(req.body.password).digest('hex');
         if (req.body.password.length < 1 || req.body.email.length < 1)
@@ -41,11 +44,13 @@ module.exports = function (app, swig, gestorBD, logger) {
         }
     });
 
+    // Vista de registro de usuario
     app.get("/registrarse", function (req, res) {
         let respuesta = swig.renderFile('views/bregistro.html', {});
         res.send(respuesta);
     });
 
+    // Registro de usuario
     app.post('/registrarse', function (req, res) {
         let seguro = app.get("crypto").createHmac('sha256', app.get('clave')).update(req.body.password).digest('hex');
         if (req.body.nombre.length < 1 || req.body.apellidos.length < 1
@@ -81,6 +86,7 @@ module.exports = function (app, swig, gestorBD, logger) {
 
     })
 
+    // Desconexion del usuario
     app.get('/logout', function (req, res) {
         logger.info("Se ha desconectado el usuario: " + req.session.usuario);
         req.session.usuario = null;

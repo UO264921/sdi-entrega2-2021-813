@@ -1,5 +1,6 @@
 module.exports = function (app, gestorBD) {
 
+    // Identificacion de usuario
     app.post("/api/autenticar", function (req, res) {
         let seguro = app.get("crypto").createHmac('sha256', app.get('clave')).update(req.body.password).digest('hex');
         let criterio = {
@@ -25,6 +26,7 @@ module.exports = function (app, gestorBD) {
         });
     });
 
+    // Ofertas de la aplicacion
     app.get("/api/oferta", function (req, res) {
         gestorBD.obtenerPublicaciones({"autor": {$ne: res.usuario}}, function (ofertas) {
             if (ofertas == null) {
@@ -39,6 +41,7 @@ module.exports = function (app, gestorBD) {
         });
     });
 
+    // Productos del usuario
     app.get("/api/misproductos", function (req, res) {
         gestorBD.obtenerPublicaciones({"autor": res.usuario}, function (ofertas) {
             if (ofertas != null) {
@@ -48,6 +51,7 @@ module.exports = function (app, gestorBD) {
         });
     })
 
+    // Mensajes de la conversacion
     app.get("/api/mensaje/:id", function (req, res) {
         gestorBD.obtenerPublicaciones({"_id": gestorBD.mongo.ObjectId(req.params.id)}, function (oferta) {
             if (oferta != null) {
@@ -97,6 +101,7 @@ module.exports = function (app, gestorBD) {
         })
     });
 
+    // Envio de mensajes a la conversacion
     app.post("/api/mensaje/:id", function (req, res) {
         var today = new Date();
         var dd = String(today.getDate()).padStart(2, '0');

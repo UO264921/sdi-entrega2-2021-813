@@ -1,4 +1,6 @@
 module.exports = function(app, swig){
+
+    // Home
     app.get('/', function(req, res){
         let respuesta = swig.renderFile('views/bhome.html', {
             usuario: req.session.usuario,
